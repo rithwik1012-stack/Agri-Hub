@@ -34,7 +34,9 @@ export function PriceTrendChart({
     row[p.crop_id] = Number(p.price);
     byDate.set(p.recorded_on, row);
   }
-  const data = [...byDate.values()].sort((a, b) => String(a.date).localeCompare(String(b.date)));
+  const data = [...byDate.values()].sort((a, b) =>
+    String(a["date"]).localeCompare(String(b["date"])),
+  );
 
   return (
     <ResponsiveContainer width="100%" height={320}>
