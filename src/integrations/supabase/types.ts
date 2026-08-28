@@ -14,7 +14,260 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bids: {
+        Row: {
+          accepted: boolean
+          amount: number
+          bidder_id: string
+          created_at: string
+          id: string
+          listing_id: string
+          note: string | null
+        }
+        Insert: {
+          accepted?: boolean
+          amount: number
+          bidder_id: string
+          created_at?: string
+          id?: string
+          listing_id: string
+          note?: string | null
+        }
+        Update: {
+          accepted?: boolean
+          amount?: number
+          bidder_id?: string
+          created_at?: string
+          id?: string
+          listing_id?: string
+          note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bids_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          client_id: string | null
+          created_at: string
+          id: string
+          parts: Json
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Insert: {
+          client_id?: string | null
+          created_at?: string
+          id?: string
+          parts?: Json
+          role: string
+          thread_id: string
+          user_id: string
+        }
+        Update: {
+          client_id?: string | null
+          created_at?: string
+          id?: string
+          parts?: Json
+          role?: string
+          thread_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "chat_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_threads: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      crop_prices: {
+        Row: {
+          crop_id: string
+          id: string
+          price: number
+          recorded_on: string
+        }
+        Insert: {
+          crop_id: string
+          id?: string
+          price: number
+          recorded_on?: string
+        }
+        Update: {
+          crop_id?: string
+          id?: string
+          price?: number
+          recorded_on?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_prices_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crops: {
+        Row: {
+          category: string
+          created_at: string
+          current_price: number
+          emoji: string
+          id: string
+          name: string
+          previous_price: number
+          slug: string
+          unit: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          current_price: number
+          emoji?: string
+          id?: string
+          name: string
+          previous_price: number
+          slug: string
+          unit?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          current_price?: number
+          emoji?: string
+          id?: string
+          name?: string
+          previous_price?: number
+          slug?: string
+          unit?: string
+        }
+        Relationships: []
+      }
+      listings: {
+        Row: {
+          base_price: number
+          created_at: string
+          crop_id: string
+          description: string | null
+          ends_at: string | null
+          farmer_id: string
+          id: string
+          location: string | null
+          mode: string
+          quantity: number
+          status: string
+          title: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          base_price: number
+          created_at?: string
+          crop_id: string
+          description?: string | null
+          ends_at?: string | null
+          farmer_id: string
+          id?: string
+          location?: string | null
+          mode?: string
+          quantity: number
+          status?: string
+          title: string
+          unit?: string
+          updated_at?: string
+        }
+        Update: {
+          base_price?: number
+          created_at?: string
+          crop_id?: string
+          description?: string | null
+          ends_at?: string | null
+          farmer_id?: string
+          id?: string
+          location?: string | null
+          mode?: string
+          quantity?: number
+          status?: string
+          title?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listings_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          location: string | null
+          phone: string | null
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+          location?: string | null
+          phone?: string | null
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          location?: string | null
+          phone?: string | null
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
