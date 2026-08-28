@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedBuyRouteImport } from './routes/_authenticated/buy'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedMarketRouteImport } from './routes/_authenticated/market'
 import { Route as AuthenticatedSellRouteImport } from './routes/_authenticated/sell'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,6 +31,11 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedBuyRoute = AuthenticatedBuyRouteImport.update({
+  id: '/buy',
+  path: '/buy',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
@@ -45,49 +52,64 @@ const AuthenticatedSellRoute = AuthenticatedSellRouteImport.update({
   path: '/sell',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/buy': typeof AuthenticatedBuyRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/market': typeof AuthenticatedMarketRoute
   '/sell': typeof AuthenticatedSellRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/buy': typeof AuthenticatedBuyRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/market': typeof AuthenticatedMarketRoute
   '/sell': typeof AuthenticatedSellRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/buy': typeof AuthenticatedBuyRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/market': typeof AuthenticatedMarketRoute
   '/_authenticated/sell': typeof AuthenticatedSellRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard' | '/market' | '/sell'
+  fullPaths:
+    '/' | '/auth' | '/buy' | '/dashboard' | '/market' | '/sell' | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/market' | '/sell'
+  to: '/' | '/auth' | '/buy' | '/dashboard' | '/market' | '/sell' | '/api/chat'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/buy'
     | '/_authenticated/dashboard'
     | '/_authenticated/market'
     | '/_authenticated/sell'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -113,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/buy': {
+      id: '/_authenticated/buy'
+      path: '/buy'
+      fullPath: '/buy'
+      preLoaderRoute: typeof AuthenticatedBuyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -134,16 +163,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSellRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedBuyRoute: typeof AuthenticatedBuyRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMarketRoute: typeof AuthenticatedMarketRoute
   AuthenticatedSellRoute: typeof AuthenticatedSellRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedBuyRoute: AuthenticatedBuyRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMarketRoute: AuthenticatedMarketRoute,
   AuthenticatedSellRoute: AuthenticatedSellRoute,
@@ -156,6 +194,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

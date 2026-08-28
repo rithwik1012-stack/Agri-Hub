@@ -137,9 +137,14 @@ function Buy() {
                   onSubmit={(e) => {
                     e.preventDefault();
                     const value = Number(amounts[l.id]);
-                    if (!value || value <= 0) return toast.error("Enter a bid amount");
-                    if (l.mode === "auction" && value <= Math.max(best, Number(l.base_price)))
-                      return toast.error("Bid must beat the current top bid");
+                    if (!value || value <= 0) {
+                      toast.error("Enter a bid amount");
+                      return;
+                    }
+                    if (l.mode === "auction" && value <= Math.max(best, Number(l.base_price))) {
+                      toast.error("Bid must beat the current top bid");
+                      return;
+                    }
                     placeBid.mutate({ listingId: l.id, amount: value });
                     setAmounts((a) => ({ ...a, [l.id]: "" }));
                   }}
